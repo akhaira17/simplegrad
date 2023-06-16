@@ -44,10 +44,22 @@ class Value:
         assert(type(other) in (float, int)), "Power functions are only supporting float or ints right now"
         
         out = Value(self.data**other, _children = (self, ), _op = f'**{other}')
+        
+        def _backward():
+            self.grad += other * self.data ** (other - 1) * out.grad
+ 
+        out._backward = _backward
         return out
     
     def exp(self):
-        pass
+        x = self.data
+        out = Value(math.exp(x), (self, ), _op = 'e', label = 'exp')
+        
+        def _backward():
+            self.grad = x.data * out.grad
+            
+        out._backward = _backward
+        return out
     
     def __neg__(self):
         return self * -1
@@ -56,13 +68,11 @@ class Value:
         return self + (-other)
     
     def __truediv__(self, other):
-        other = other if isinstance(other, Value) else Value(other)
-        
         out = self * other**-1
         return out
     
     def tanh(self):
-        #https://en.wikipedia.org/wiki/Hyperbolic_functions
+        # https://en.wikipedia.org/wiki/Hyperbolic_functions
         x = self.data
         t = (math.exp(2*x) - 1)/(math.exp(2*x) + 1)
         out = Value(t, _children = (self, ), _op = 'tanh')
