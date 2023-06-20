@@ -4,8 +4,7 @@ import random
 class Function:
     # flattening list of lists of parameter 
     @staticmethod
-    def flatten(lis):  # sourcery skip: yield-from
-        """Flattens a deeply nested list"""
+    def flatten(lis):  
         for item in lis:
             if isinstance(item, list):
                 for x in Function.flatten(item):
