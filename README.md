@@ -142,7 +142,7 @@ print(f"Training F1-score: {f1_score}")
 ```
 
 ### Saving and loading the model
-If you are happy with the results (make sure you have assessed training, valid, and test!) then you can go ahead and save the model. In fact even if the model performs poorly you can save the model to use later for model. 
+If you are happy with the results (make sure you have assessed training, valid, and test!) then you can go ahead and save the model. In fact even if the model performs poorly you can save the model to use later for model comparison analysis. 
 
 ```python
 import dill
