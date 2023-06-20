@@ -34,7 +34,7 @@ random.seed(1337)
 # Calculate the class weights
 class_weights = class_weight.compute_sample_weight('balanced', y = labels)
 
-# Assuming features and labels are your original data
+# Set up sizes
 data_size = len(features)
 train_frac = 0.8  # Fraction of data to use for training
 train_size = int(data_size * train_frac)  # Number of examples to use for training
