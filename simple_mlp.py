@@ -47,18 +47,22 @@ class Neuron:
         # multiplies weights by input array x
         # start from bias (same as adding )
         cell = sum((wi*xi for wi, xi in zip(self.weights, x)), self.bias)
-        # apply tanh to cell (taken from simple_nn class)
+        # apply nonlinearity function
+        # relu by default for all hidden layers
+        # can specify sigmoid or tanh in MLP object for output layer
         if self.activation == 'relu':
             out = cell.relu()
         elif self.activation == 'sigmoid':
             out = cell.sigmoid()
+        elif self.activation == 'tanh':
+            out = cell.tanh()
         else:
             raise ValueError(f'Invalid activation function: {self.activation}')
         
         if self.is_training:
             if random.random() < self.dropout:
                 out = Value(0)
-        
+                
         return out
 
     def parameters(self):
@@ -96,18 +100,20 @@ class MLP:
     Args:
         nin(int): input layer
         nouts(list): hidden layers and output layer in the order they are shown
-        
+        activation(str): default is sigmoid. parameter is for final layer. can use tanh depending on use case. 
     Returns:
         MLP object
     """
-    def __init__(self, input_size:int, layers:list[int]):
+    def __init__(self, input_size:int, layers:list[int], activation = 'sigmoid'):
+        # default activation is sigmoid
+        self.activation = activation
         # layout of MLP
         size = [input_size] + layers
         # initialise layers
         # create a layer between consecutive inputs
         self.layers = [Layer(size[i], size[i+1]) for i in range(len(layers) - 1)]
         # apply sigmoid to the final layer
-        self.layers.append(Layer(size[-2], size[-1], activation='sigmoid'))
+        self.layers.append(Layer(size[-2], size[-1], activation=self.activation))
     
     def set_training_mode(self, is_training):
         for layer in self.layers:
