@@ -56,7 +56,7 @@ valid_labels = [Value(labels[i]) for i in valid_indices]
 
 ### Optimising the loss function
 
-We first intialise an MLP object, and define our loss function
+We first intialise an MLP object, and define our loss function. You can modify this loss function with class weights if necessary. An tiny value named epsilon (or whatever you like) can be added to ensure we are not trying to take the log of a zero value -> math domain error
 
 ```python
 # Initialize your model
